@@ -1,25 +1,23 @@
-from tictactoc_world import TicTacTocWorld
+from tictactoe_world import TicTacToeWorld
 from q_learning import QLearningAgent, RandomAgent
 from tqdm import tqdm
 from utils import save_q_table, load_q_table
-import copy
 
-hps = {
-    'load_table': False,
-    'save_table': True
-}
+hps = {"load_table": False, "save_table": True}
 
 
-env = TicTacTocWorld()
+env = TicTacToeWorld()
 agent = QLearningAgent()
-opponent = QLearningAgent() 
+opponent = QLearningAgent()
 
 
-if hps['load_table']:
+if hps["load_table"]:
     load_q_table(agent)
+
 
 def agent_perspective(state, player):
     return tuple([s * player for s in state])
+
 
 episodes = 100000
 win_rates = []
@@ -36,8 +34,7 @@ for episode in tqdm(range(episodes)):
     done = False
     last_experience = None
 
-    agent_is_player1 = (env.curr_player == 1)
-    
+    agent_is_player1 = env.curr_player == 1
 
     while not done:
         current_player_sign = env.curr_player
@@ -50,10 +47,22 @@ for episode in tqdm(range(episodes)):
 
         if last_experience is not None:
             prev_player, prev_state, prev_action, prev_player_sign = last_experience
-            prev_player.update(prev_state, prev_action, reward * -1, agent_perspective(next_state, prev_player_sign), done)
+            prev_player.update(
+                prev_state,
+                prev_action,
+                reward * -1,
+                agent_perspective(next_state, prev_player_sign),
+                done,
+            )
 
         if done:
-            current_player.update(perspective_state, action, reward, agent_perspective(next_state, env.curr_player), done)
+            current_player.update(
+                perspective_state,
+                action,
+                reward,
+                agent_perspective(next_state, env.curr_player),
+                done,
+            )
 
             if reward == 1:
                 if current_player == agent:
@@ -64,7 +73,12 @@ for episode in tqdm(range(episodes)):
             else:
                 draws += 1
         else:
-            last_experience = (current_player, perspective_state, action, current_player_sign)
+            last_experience = (
+                current_player,
+                perspective_state,
+                action,
+                current_player_sign,
+            )
             state = next_state
 
     if (episode + 1) % 1000 == 0:
@@ -74,17 +88,16 @@ for episode in tqdm(range(episodes)):
         wins, draws, losses = 0, 0, 0
 
 
-if hps['save_table']:
+if hps["save_table"]:
     save_q_table(agent)
 
-import matplotlib.pyplot as plt       
-plt.plot(win_rates, label='Win rate')
-plt.plot(draw_rates, label='Draw rate')
-plt.plot(loss_rates, label='Loss rate')
-plt.xlabel('x100 episodes')
-plt.ylabel('rate')
+import matplotlib.pyplot as plt
+
+plt.plot(win_rates, label="Win rate")
+plt.plot(draw_rates, label="Draw rate")
+plt.plot(loss_rates, label="Loss rate")
+plt.xlabel("x100 episodes")
+plt.ylabel("rate")
 plt.legend()
-plt.savefig('graph.png')
+plt.savefig("graph.png")
 env.render()
-
-

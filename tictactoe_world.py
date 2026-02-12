@@ -1,7 +1,7 @@
 import random
 
 
-class TicTacTocWorld:
+class TicTacToeWorld:
     def __init__(self):
         self.board = [0] * 9
         self.curr_player = random.choice([-1, 1])
