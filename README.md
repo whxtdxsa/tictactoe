@@ -2,7 +2,7 @@
 
 
 
-에이전트가 동작하는 TicTacToe 환경을 구현하고, 그 환경에서 최적의 행동를 스스로 찾도록 학습시키는 프로젝트입니다. 별도의 데이터셋 없이 Self**-**Play방식을 통해 Zero-knowledge 상태에서 최적 전략으로 수렴하는 과정을 실험합니다.
+에이전트가 동작하는 TicTacToe 환경을 구현하고, 그 환경에서 최적의 행동을 스스로 찾도록 학습시키는 프로젝트입니다. 별도의 데이터셋 없이 Self-Play방식을 통해 Zero-knowledge 상태에서 최적 전략으로 수렴하는 과정을 실험합니다.
 
 ![Player vs Trained agent](assets/Screenshot_20260212_173633_Termux.jpg)
 
@@ -10,7 +10,7 @@ Player vs Trained agent
 
 ### Previous Future Work
 
-이 프로젝트는 rl-basic프로젝트의 후속 연구이며 다음의 두 가지 목표를 다룹니다.
+이 프로젝트는 rl-basic 프로젝트의 후속 연구이며 다음의 두 가지 목표를 다룹니다.
 
 - Applying the self-play method.
 - Moving beyond basic grid worlds to a game-theoretic environment.
@@ -63,16 +63,16 @@ tictactoe
 ### Implementation Logic
 
 - Initialization: Define action space, state space, and end points. Run reset method.
-- Reset: Initialize the board. Random choose start player
-- Step: Update state from action
+- Reset: Initialize the board. Random choose start player.
+- Step: Update state from action.
 - Check win: Check the game is ended.
-- Visualization: render the board.
+- Visualization: Render the board.
 
 # Training Methodology
 
 ### Q-Learning Algorithm
 
-The state space of Tic-Tac-Toe is computationally tractable, enough to save all state value in Q-table.
+The state space of Tic-Tac-Toe is computationally tractable enough to save all state value in Q-table.
 
 Q-learning is an off-policy Temporal Difference control algorithm that approximates the Bellman Optimality Equation. By utilizing the maximum Q-value of the subsequent state, it converges to the optimal policy independently of the agent's current exploration strategy.
 
